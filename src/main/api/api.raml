@@ -1,0 +1,47 @@
+#%RAML 1.0
+baseUri: http://mcdapp.cloudhub.io/
+title: mcdapp
+version: 1.0 development
+/users:
+  get:
+    description: get list of users
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: !include users.json
+  post:
+    description: CREATE USER 
+    body: 
+      multipart/form-data:
+        description: add mltipart form data into request. 
+        
+    responses: 
+      201:
+        body: 
+          application/json:
+            example: {"MESSAGE":"USER CREATED SUCCESSFULLY."}
+/users/{ID}:
+  get:
+    description: get user detail by id
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: |  
+              {
+              "id": 1,
+              "name": "Leanne Graham",
+              "username": "Bret",
+              "email": "Sincere@april.biz",
+              "address": {
+              "street": "Kulas Light",
+              "suite": "Apt. 556",
+              "city": "Gwenborough",
+              "zipcode": "92998-3874",
+              "geo": {
+                "lat": "-37.3159",
+                "lng": "81.1496"
+               }
+              }
+

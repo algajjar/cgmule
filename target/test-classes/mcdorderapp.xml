@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
+	xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/schema/mule/api-platform-gw/current/mule-api-platform-gw.xsd
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd">
+    <http:listener-config name="mcdorderapp-httpListenerConfig" host="localhost" port="8081" doc:name="HTTP Listener Configuration" protocol="HTTPS">
+        <tls:context>
+            <tls:key-store path="keystore.jks" password="password" keyPassword="password" type="jks" />
+        </tls:context>
+        <http:worker-threading-profile threadWaitTimeout="2000" />
+    </http:listener-config>
+    <apikit:config name="mcdorderapp-config" raml="api.raml" consoleEnabled="false" doc:name="Router" />
+    <api-platform-gw:api apiName="mcd" version="1.0development" flowRef="mcdorderapp-main" create="true" apikitRef="mcdorderapp-config" doc:name="API Autodiscovery">
+        <api-platform-gw:description>get list of mcd users</api-platform-gw:description>
+    </api-platform-gw:api>
+    <apikit:config name="Router" raml="api.raml" consoleEnabled="true" consolePath="console" keepRamlBaseUri="false" doc:name="Router" />
+    <http:request-config name="HTTP_Request_Configuration" protocol="HTTP" host="soapi.cloudhub.io"  doc:name="HTTP Request Configuration" basePath="/"/>
+    <ws:consumer-config name="Web_Service_Consumer" service="HelloSOAPService" port="HelloSOAPPort" serviceAddress="http://soapi.cloudhub.io/callSOAP" wsdlLocation="http://soapi.cloudhub.io/callSOAP?wsdl" doc:name="Web Service Consumer" connectorConfig="HTTP_Request_Configuration"/>
+    <flow name="mcdorderapp-main">
+        <http:listener config-ref="mcdorderapp-httpListenerConfig" path="/api/*" doc:name="HTTP" />
+        <apikit:router config-ref="mcdorderapp-config" doc:name="APIkit Router" />
+        <exception-strategy ref="mcdorderapp-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy" />
+    </flow>
+    <flow name="mcdorderapp-console">
+        <http:listener config-ref="mcdorderapp-httpListenerConfig" path="/console/*" doc:name="HTTP" />
+        <apikit:console config-ref="mcdorderapp-config" doc:name="APIkit Console" />
+    </flow>
+    <flow name="get:/users:mcdorderapp-config">
+        <set-payload value="[&#xA;  {&#xA;    &quot;id&quot;: 1,&#xA;    &quot;name&quot;: &quot;Leanne Graham&quot;,&#xA;    &quot;username&quot;: &quot;Bret&quot;,&#xA;    &quot;email&quot;: &quot;Sincere@april.biz&quot;,&#xA;    &quot;address&quot;: {&#xA;      &quot;street&quot;: &quot;Kulas Light&quot;,&#xA;      &quot;suite&quot;: &quot;Apt. 556&quot;,&#xA;      &quot;city&quot;: &quot;Gwenborough&quot;,&#xA;      &quot;zipcode&quot;: &quot;92998-3874&quot;,&#xA;      &quot;geo&quot;: {&#xA;        &quot;lat&quot;: &quot;-37.3159&quot;,&#xA;        &quot;lng&quot;: &quot;81.1496&quot;&#xA;      }&#xA;    },&#xA;    &quot;phone&quot;: &quot;1-770-736-8031 x56442&quot;,&#xA;    &quot;website&quot;: &quot;hildegard.org&quot;,&#xA;    &quot;company&quot;: {&#xA;      &quot;name&quot;: &quot;Romaguera-Crona&quot;,&#xA;      &quot;catchPhrase&quot;: &quot;Multi-layered client-server neural-net&quot;,&#xA;      &quot;bs&quot;: &quot;harness real-time e-markets&quot;&#xA;    }&#xA;  }&#xA;]" doc:name="Set Payload" />
+    </flow>
+    <flow name="get:/users/{ID}:mcdorderapp-config">
+        <set-payload value="{&#xA;&quot;id&quot;: 1,&#xA;&quot;name&quot;: &quot;Leanne Graham&quot;,&#xA;&quot;username&quot;: &quot;Bret&quot;,&#xA;&quot;email&quot;: &quot;Sincere@april.biz&quot;,&#xA;&quot;address&quot;: {&#xA;&quot;street&quot;: &quot;Kulas Light&quot;,&#xA;&quot;suite&quot;: &quot;Apt. 556&quot;,&#xA;&quot;city&quot;: &quot;Gwenborough&quot;,&#xA;&quot;zipcode&quot;: &quot;92998-3874&quot;,&#xA;&quot;geo&quot;: {&#xA;  &quot;lat&quot;: &quot;-37.3159&quot;,&#xA;  &quot;lng&quot;: &quot;81.1496&quot;&#xA; }&#xA;}" doc:name="Set Payload" />
+    </flow>
+    
+    
+    <flow name="post:/users:mcdorderapp-config">
+        <set-payload value="#[message.inboundAttachments]" doc:name="Retrieve Attachments"/> 
+       
+		 <foreach doc:name="For Each">
+     		<logger message="Attachment File name:- #[payload.dataSource.part.fileName] Attachment Key name:- #[payload.dataSource.part.partName+'\n'] Attach File Content type:- #[payload.dataSource.part.contentType] " level="INFO" doc:name="Logger"/>
+        </foreach>
+
+         <flow-ref name="get:/users/{ID}:mcdorderapp-config" doc:name="get:/users/{ID}:mcdorderapp-config"/>
+    </flow>
+   <!--  <flow name="mcdorderappFlow">
+        <file:inbound-endpoint path="D:\Users\algajjar\Desktop" responseTimeout="10000" doc:name="File"/>
+        <dw:transform-message doc:name="Transform Message" > 
+        
+        </dw:transform-message>
+   
+    </flow> -->  
+    <apikit:mapping-exception-strategy name="mcdorderapp-apiKitGlobalExceptionMapping">
+        <apikit:mapping statusCode="404">
+            <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Resource not found&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="405">
+            <apikit:exception value="org.mule.module.apikit.exception.MethodNotAllowedException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Method not allowed&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="415">
+            <apikit:exception value="org.mule.module.apikit.exception.UnsupportedMediaTypeException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Unsupported media type&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="406">
+            <apikit:exception value="org.mule.module.apikit.exception.NotAcceptableException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Not acceptable&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="400">
+            <apikit:exception value="org.mule.module.apikit.exception.BadRequestException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Bad request&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+    </apikit:mapping-exception-strategy>
+</mule>
