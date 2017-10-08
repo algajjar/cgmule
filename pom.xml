@@ -28,7 +28,7 @@
              <muleVersion>3.8.5</muleVersion>
              <username>al_gajjar</username>
              <password>Amma@666</password>             
-             <redeploy>true</redeploy>
+             
 	     <target>development</target>
         <!-- One of: server, serverGroup, cluster: -->
         <targetType>server</targetType>
