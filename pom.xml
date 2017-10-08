@@ -19,6 +19,33 @@
 	<build>
 		<plugins>
 			<plugin>
+       <groupId>org.mule.tools.maven</groupId>
+       <artifactId>mule-maven-plugin</artifactId>
+       <version>2.1.1</version>
+       
+         <configuration>
+             <deploymentType>cloudhub</deploymentType>
+             <muleVersion>3.8.3</muleVersion>
+             <username>al_gajjar</username>
+             <password>Amma@666</password>
+              <applicationName>mcdorderapp-maven-1.0</applicationName>
+             <target>CloudHub</target>
+             <!-- One of: server, serverGroup, cluster -->
+             <domain>cloudhub.io</domain>
+             <targetType>server</targetType>
+             <environment>DEVELOPMENT</environment>
+         </configuration>
+         <executions>
+             <execution>
+                 <id>deploy</id>
+                 <phase>deploy</phase>
+                 <goals>
+                     <goal>deploy</goal>
+                 </goals>
+             </execution>
+         </executions>
+</plugin>
+			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-app-maven-plugin</artifactId>
 				<version>${mule.tools.version}</version>
@@ -27,6 +54,13 @@
                     <copyToAppsDirectory>true</copyToAppsDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-deploy-plugin</artifactId>
+  <configuration>
+    <skip>true</skip>
+  </configuration>
+</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
