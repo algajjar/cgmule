@@ -27,10 +27,8 @@
              <deploymentType>cloudhub</deploymentType>
              <muleVersion>3.8.5</muleVersion>
              <username>al_gajjar</username>
-             <password>Amma@666</password>
-              <applicationName>mcdorderapp-maven-1.0</applicationName>
-             <redeploy>true</redeploy>
-             <environment>Production</environment>           
+             <password>Amma@666</password>             
+             <redeploy>true</redeploy>                    
          </configuration>
          <executions>
              <execution>
