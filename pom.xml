@@ -28,7 +28,7 @@
              <muleVersion>3.8.5</muleVersion>
              <username>al_gajjar</username>
              <password>Amma@666</password>
-	     <applicationName>mcdorderapp-${project.artifactId}</applicationName>
+	     <applicationName>mcdv1</applicationName>
              <environment>Sandbox</environment>
 	     <target>development</target>
         <!-- One of: server, serverGroup, cluster: -->
