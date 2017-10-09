@@ -4,66 +4,64 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mycompany</groupId>
 	<artifactId>mcdorderapp</artifactId>
-    	<version>1.0.0-SNAPSHOT</version>
-    	<packaging>mule</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>mule</packaging>
 	<name>Mule mcdorderapp Application</name>
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<mule.version>3.8.5</mule.version>
-    		<mule.tools.version>1.2</mule.tools.version>
+    	<mule.tools.version>1.2</mule.tools.version>
 	</properties>
 
 	<build>
-		<plugins>
-			<plugin>
-       				<groupId>org.mule.tools.maven</groupId>
-       				<artifactId>mule-maven-plugin</artifactId>
-       				<version>2.1.1</version>
-       
-         <configuration>
-             <deploymentType>cloudhub</deploymentType>
-             <muleVersion>3.8.5</muleVersion>
-             <username>al_gajjar</username>
-             <password>Amma@666</password>
-	     <applicationName>mcdv1</applicationName>
-             <environment>Sandbox</environment>
-	     <target>development</target>
-        <!-- One of: server, serverGroup, cluster: -->
-        <targetType>server</targetType>
-         </configuration>
-         <executions>
-             <execution>
-                 <id>deploy</id>
-                 <phase>deploy</phase>
-                 <goals>
-                     <goal>deploy</goal>
-                 </goals>
-             </execution>
-         </executions>
-</plugin>
-			 <plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-app-maven-plugin</artifactId>
-				<version>2.2.1</version>
-				<extensions>true</extensions>
-				 <configuration>
-                			<copyToAppsDirectory>true</copyToAppsDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-  				<groupId>org.apache.maven.plugins</groupId>
- 				 <artifactId>maven-deploy-plugin</artifactId>
-   				<configuration>
-   					 <skip>true</skip>
-  				</configuration>
-			</plugin>
-			<plugin>
+	  <plugins>
+		<plugin>
+			<groupId>org.mule.tools.maven</groupId>
+			<artifactId>mule-maven-plugin</artifactId>
+			<version>2.1.1</version>
+			<configuration>
+				<deploymentType>cloudhub</deploymentType>
+				<muleVersion>3.8.5</muleVersion>
+				<username>al_gajjar</username>
+				<password>Amma@666</password>
+				<applicationName>mcdv1</applicationName>
+				<environment>Sandbox</environment>
+				<target>development</target>
+				<targetType>server</targetType>
+			</configuration>
+			<executions>
+				<execution>
+					<id>deploy</id>
+					<phase>deploy</phase>
+					<goals>
+						<goal>deploy</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.mule.tools.maven</groupId>
+			<artifactId>mule-app-maven-plugin</artifactId>
+			<version>${mule.tools.version}</version>
+			<extensions>true</extensions>
+			<configuration>
+                <copyToAppsDirectory>true</copyToAppsDirectory>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-deploy-plugin</artifactId>
+			<configuration>
+				<skip>true</skip>
+			</configuration>
+		</plugin>
+		<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>build-helper-maven-plugin</artifactId>
 			<version>1.7</version>
-			<!-- <executions>
+			<executions>
 				<execution>
 					<id>add-resource</id>
 					<phase>generate-resources</phase>
@@ -84,7 +82,7 @@
 						</resources>
 					</configuration>
 				</execution>
-			</executions>-->
+			</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -183,12 +181,6 @@
             <url>http://repository.mulesoft.org/releases/</url>
             <layout>default</layout>
         </repository>
-	<repository>
-       		<id>mulesoft-snapshots</id>
-       		<name>MuleSoft Snapshots Repository</name>
-       		<url>http://repository.mulesoft.org/snapshots/</url>
-       		<layout>default</layout>
-   	</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
