@@ -46,11 +46,8 @@
 			 <plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-app-maven-plugin</artifactId>
-				<version>${mule.tools.version}</version>
+				<version>2.2.1</version>
 				<extensions>true</extensions>
-				<configuration>
-                  			 <copyToAppsDirectory>true</copyToAppsDirectory>
-				</configuration>
 			</plugin>
 			<plugin>
   				<groupId>org.apache.maven.plugins</groupId>
