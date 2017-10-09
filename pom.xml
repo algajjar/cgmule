@@ -48,6 +48,9 @@
 				<artifactId>mule-app-maven-plugin</artifactId>
 				<version>2.2.1</version>
 				<extensions>true</extensions>
+				 <configuration>
+                			<copyToAppsDirectory>true</copyToAppsDirectory>
+				</configuration>
 			</plugin>
 			<plugin>
   				<groupId>org.apache.maven.plugins</groupId>
