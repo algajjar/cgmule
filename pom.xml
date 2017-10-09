@@ -56,6 +56,7 @@
 			<plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-deploy-plugin</artifactId>
+   <version>${mule.tools.version}</version>
   <configuration>
     <skip>true</skip>
   </configuration>
